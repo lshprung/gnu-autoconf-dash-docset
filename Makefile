@@ -50,7 +50,15 @@ $(INFO_PLIST_FILE): src/Info.plist $(CONTENTS_DIR)
 $(INDEX_FILE): src/index.sh $(DOCUMENTS_DIR)
 	rm -f $@
 	src/index.sh $@ $(DOCUMENTS_DIR)/*.html
-	#ruby src/index.rb $(DOCUMENTS_DIR)/*.html | sqlite3 $@
+	src/index.sh -i "Entry" $@ $(DOCUMENTS_DIR)/Concept-Index.html
+	src/index.sh -i "Macro" $@ $(DOCUMENTS_DIR)/M4-Macro-Index.html
+	src/index.sh -i "Macro" $@ $(DOCUMENTS_DIR)/Autoconf-Macro-Index.html
+	src/index.sh -i "Macro" $@ $(DOCUMENTS_DIR)/Autotest-Macro-Index.html
+	src/index.sh -i "Variable" $@ $(DOCUMENTS_DIR)/Cache-Variable-Index.html
+	src/index.sh -i "Variable" $@ $(DOCUMENTS_DIR)/Output-Variable-Index.html
+	src/index.sh -i "Function" $@ $(DOCUMENTS_DIR)/Program-_0026-Function-Index.html
+	src/index.sh -i "Entry" $@ $(DOCUMENTS_DIR)/Preprocessor-Symbol-Index.html
+	src/index.sh -i "Variable" $@ $(DOCUMENTS_DIR)/Environment-Variable-Index.html
 
 $(ICON_FILE): src/icon.png $(DOCSET_DIR)
 	cp src/icon.png $@
