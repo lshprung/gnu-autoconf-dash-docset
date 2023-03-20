@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+# Remove duplicate Macros
+clean_table() {
+	sqlite3 "$DB_PATH" "DELETE FROM searchIndex WHERE EXISTS (SELECT 1 FROM searchIndex s2 WHERE searchIndex.name = s2.name AND searchIndex.type = s2.type AND searchIndex.type = \"Macro\" AND searchIndex.rowid > s2.rowid)"
+}
+
 create_table() {
 	sqlite3 "$DB_PATH" "CREATE TABLE IF NOT EXISTS searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT);"
 	sqlite3 "$DB_PATH" "CREATE UNIQUE INDEX IF NOT EXISTS anchor ON searchIndex (name, type, path);"
@@ -9,7 +14,7 @@ get_title() {
 	FILE="$1"
 
 	pup -p -f "$FILE" 'title text{}' | \
-		sed 's/(Autoconf)//g' | \
+		sed 's/ (Autoconf)//g' | \
 		sed 's/\"/\"\"/g'
 }
 
@@ -68,7 +73,7 @@ insert_pages() {
 
 insert_term() {
 	LINK="$1"
-	NAME="$(echo "$LINK" | pup -p 'a text{}' | sed 's/"/\"\"/g')"
+	NAME="$(echo "$LINK" | pup -p 'a text{}' | sed 's/"/\"\"/g' | tr -d \\n)"
 	TYPE="$INDEX_TYPE"
 	PAGE_PATH="$(echo "$LINK" | pup -p 'a attr{href}')"
 
@@ -101,5 +106,6 @@ case "$TYPE" in
 		;;
 	INDEX)
 		insert_index_terms "$@"
+		clean_table
 		;;
 esac
