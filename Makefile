@@ -10,7 +10,8 @@ INDEX_FILE      = $(RESOURCES_DIR)/docSet.dsidx
 ICON_FILE       = $(DOCSET_DIR)/icon.png
 ARCHIVE_FILE    = $(DOCSET_NAME).tgz
 
-MANUAL_URL  = https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.71/autoconf.html_node.tar.gz
+VERSION=2.72
+MANUAL_URL  = https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-${VERSION}/autoconf.html_node.tar.gz
 MANUAL_FILE = tmp/autoconf.html_node.tar.gz
 
 DOCSET = $(INFO_PLIST_FILE) $(INDEX_FILE) $(ICON_FILE)
