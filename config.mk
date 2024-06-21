@@ -1,11 +1,14 @@
 SRC_ICON_FILE=$(SOURCE_DIR)/icon.png
 
-VERSION=2.72
-MANUAL_URL  = https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-${VERSION}/autoconf.html_node.tar.gz
+ifdef VERSION
+	MANUAL_URL = https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-${VERSION}/autoconf.html_node.tar.gz
+else
+	MANUAL_URL = https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf.html_node.tar.gz
+endif
 MANUAL_FILE = tmp/autoconf.html_node.tar.gz
 
 $(MANUAL_FILE): tmp
-	curl -o $@ $(MANUAL_URL)
+	curl -L -o $@ $(MANUAL_URL)
 
 $(DOCUMENTS_DIR): $(RESOURCES_DIR) $(MANUAL_FILE)
 	mkdir -p $@
